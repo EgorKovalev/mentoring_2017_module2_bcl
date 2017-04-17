@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
@@ -16,9 +17,8 @@ namespace ConsoleApplication1
             string email = ((CustomAttribute)properties).Email;
 
             //Task 2 - sort string array
-            IComparer comparer = new Comparer();
             String[] strs = {"The", "QUICK", "BROWN", "FOX", "jumps", "over", "the", "lazy", "dog"};
-            Array.Sort(strs, comparer);
+            Array.Sort(strs, new Comparer());
 
             //Task3 - concatenation
             string result = Concatenator.Concatenate(strs);
@@ -38,11 +38,11 @@ namespace ConsoleApplication1
         }
     }
 
-    public class Comparer : IComparer
+    public class Comparer : IComparer<string>
     {
-        public int Compare(object x, object y)
+        public int Compare(string x, string y)
         {
-            return String.Compare(x.ToString(), y.ToString(), false, CultureInfo.InvariantCulture);
+            return String.Compare(x, y, StringComparison.OrdinalIgnoreCase);
         }
     }
 
