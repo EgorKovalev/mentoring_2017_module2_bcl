@@ -1,20 +1,26 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 
 namespace ConsoleApplication1
 {
-    [CustomAttribute]
     class Program
     {
         static void Main(string[] args)
         {
-            //Task 1 - custom attribute
-            object properties = typeof(Program).GetCustomAttributes(typeof(CustomAttribute), false)[0];
-            string name = ((CustomAttribute) properties).Name;
-            string email = ((CustomAttribute)properties).Email;
+            //Task 1 - custom attribute (https://msdn.microsoft.com/en-us/library/71s1zwct(v=vs.110).aspx)
+            CustomAttribute attribute =
+                (CustomAttribute) Attribute.GetCustomAttribute(typeof(Person), typeof(CustomAttribute));
+
+            if (attribute == null)
+            {
+                Console.WriteLine("The attribute was not found");
+            }
+            else
+            {
+                Console.WriteLine(attribute.Name);
+                Console.WriteLine(attribute.Email);
+            }
 
             //Task 2 - sort string array
             String[] strs = {"The", "QUICK", "BROWN", "FOX", "jumps", "over", "the", "lazy", "dog"};
@@ -25,8 +31,12 @@ namespace ConsoleApplication1
         }
     }
 
+    [Custom]
+    public class Person
+    {}
+
     [AttributeUsage(AttributeTargets.Class)]
-    public sealed class CustomAttribute : System.Attribute
+    public class CustomAttribute : System.Attribute
     {
         public string Name { get; private set; }
         public string Email { get; private set; }
